@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -33,6 +34,13 @@ func makeQuery(query string) func(string, string, string) string {
 func getSourceVersion(q string) string {
 	m := patchReg.FindAllStringSubmatch(q, 1)
 	return m[0][1]
+}
+
+func getPatchVersion(v string) string {
+	strArr := strings.Split(v, ".")
+	length := len(strArr)
+	versionArr := strArr[:length-1]
+	return strings.Join(versionArr, ".")
 }
 
 func getTierList(q string) (ITierList, error) {
@@ -284,7 +292,8 @@ func Import(championAliasList map[string]common.ChampionItem, officialVer string
 	html := string(body)
 	eps := epReg.FindAllStringSubmatch(html, -1) // "ep=champion&p=d&v=9&patch=11.9&cid=107&lane=default&tier=platinum_plus&queue=420&region=all"
 	epQuery := eps[0][0]
-	sourceVersion := getSourceVersion(epQuery)
+	// sourceVersion := getSourceVersion(epQuery)
+	sourceVersion := getPatchVersion(officialVer)
 	queryMaker := makeQuery(epQuery)
 
 	q := queryMaker("103", "middle", "gold_plus")
