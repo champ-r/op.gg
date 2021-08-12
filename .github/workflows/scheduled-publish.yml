@@ -38,7 +38,7 @@ jobs:
         run: |
           go build -v .
 
-      - name: Publish
+      - name: Generate & Publish
         run: |
           npx npm-cli-adduser -u ${{ secrets.NPM_USER }} -e ${{ secrets.NPM_EMAIL }} -p ${{ secrets.NPM_PASS }}
           ./publish.sh -a
