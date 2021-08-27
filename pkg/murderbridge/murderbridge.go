@@ -72,19 +72,23 @@ type PerkStyleItem struct {
 	Fragments []int   `json:"fragments"`
 }
 
-const MurderBridge = `murderbridge`
-const MurderBridgeBUrl = `https://d23wati96d2ixg.cloudfront.net`
-const e = 2.71828
-const generalMean = 2.5
-const generalRatio = float64(50)
-const spread = 100 - generalRatio
+const (
+	MurderBridge    = `murderbridge`
+	MurderBridgeUrl = `https://d23wati96d2ixg.cloudfront.net`
+	e               = 2.71828
+	generalMean     = 2.5
+	generalRatio    = float64(50)
+	spread          = 100 - generalRatio
+)
 
-var items *map[string]common.BuildItem
-var runeLoopUp map[int]*common.RespRuneItem
-var allRunes *[]common.RuneSlot
+var (
+	items      *map[string]common.BuildItem
+	runeLoopUp map[int]*common.RespRuneItem
+	allRunes   *[]common.RuneSlot
+)
 
 func getLatestVersion() (string, error) {
-	url := MurderBridgeBUrl + `/save/general.json`
+	url := MurderBridgeUrl + `/save/general.json`
 	body, err := common.MakeRequest(url)
 	if err != nil {
 		return "", err
@@ -320,7 +324,7 @@ func generateOptimalPerks(runes map[string]StatItem) []PerkStyleItem {
 }
 
 func genChampionData(champion common.ChampionItem, version string, timestamp int64) (*common.ChampionDataItem, error) {
-	url := MurderBridgeBUrl + `/save/` + version + `/ARAM/` + champion.Id + `.json`
+	url := MurderBridgeUrl + `/save/` + version + `/ARAM/` + champion.Id + `.json`
 	body, err := common.MakeRequest(url)
 	if err != nil {
 		return nil, err

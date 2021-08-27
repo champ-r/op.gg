@@ -3,25 +3,33 @@
 args="${@}"
 
 npm=$(command -v npm)
+workDir=$(pwd)
+
+publish() {
+  local dir=$1
+  log "processing $dir"
+
+  if [ -d "$workDir/output/$dir" ]; then
+    cp "$workDir/output/index.json" "$workDir/output/$dir/"
+    cd "$workDir/output/$dir" || return
+    $npm publish --access public
+  else
+    log "$workDir/output/$dir not exists"
+  fi
+}
+
+log() {
+  echo "[publish] $1"
+}
+
+log "pwd is $workDir"
+
+declare -a arr=("op.gg" "op.gg-aram" "murderbridge" "lolalytics" "lolalytics-aram")
 
 ./data-crawler $args
-cp output/index.json output/op.gg/
-cp output/index.json output/op.gg-aram/
-cp output/index.json output/murderbridge/
-cp output/index.json output/lolalytics/
-cp output/index.json output/lolalytics-aram/
 
-cd output/op.gg
-$npm publish --access public
+cd "$workDir" || return
 
-cd ../op.gg-aram
-$npm publish --access public
-
-cd ../murderbridge
-$npm publish --access public
-
-cd ../lolalytics
-$npm publish --access public
-
-cd ../lolalytics-aram
-$npm publish --access public
+for i in "${arr[@]}"; do
+  publish "$i"
+done

@@ -16,8 +16,10 @@ import (
 	"strings"
 )
 
-const DataDragonUrl = "https://ddragon.leagueoflegends.com"
-const BaseBootId = `1001`
+const (
+	DataDragonUrl = "https://ddragon.leagueoflegends.com"
+	BaseBootId    = `1001`
+)
 
 func MatchSpellName(src string) string {
 	if len(src) == 0 {

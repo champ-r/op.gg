@@ -12,14 +12,18 @@ import (
 	"time"
 )
 
-var cidReg = regexp.MustCompile("&cid=\\d+?&")
-var laneReg = regexp.MustCompile("&lane=[a-zA-Z]+?&")
-var epReg = regexp.MustCompile("ep=.*?region=all")
-var tierReg = regexp.MustCompile("&tier=[a-zA-Z_]+&")
-var patchReg = regexp.MustCompile("&patch=((\\d+\\.)+\\d+?)&")
+const (
+	ApiUrl          = "https://apix1.op.lol"
+	MinimumPickRate = 5
+)
 
-const ApiUrl = "https://apix1.op.lol"
-const MinimumPickRate = 5
+var (
+	cidReg   = regexp.MustCompile("&cid=\\d+?&")
+	laneReg  = regexp.MustCompile("&lane=[a-zA-Z]+?&")
+	epReg    = regexp.MustCompile("ep=.*?region=all")
+	tierReg  = regexp.MustCompile("&tier=[a-zA-Z_]+&")
+	patchReg = regexp.MustCompile("for Patch (\\d+.\\d+(.\\d+)?)")
+)
 
 func makeQuery(query string) func(string, string, string, string) string {
 	oldQ := query
@@ -291,10 +295,10 @@ func Import(championAliasList map[string]common.ChampionItem, officialVer string
 	}
 
 	html := string(body)
+	sourceVersion := getSourceVersion(html)
 	eps := epReg.FindAllStringSubmatch(html, -1) // "ep=champion&p=d&v=9&patch=11.9&cid=107&lane=default&tier=platinum_plus&queue=420&region=all"
 	epQuery := eps[0][0]
-	// sourceVersion := getSourceVersion(epQuery)
-	sourceVersion := getPatchVersion(officialVer)
+	//sourceVersion := getPatchVersion(officialVer)
 	queryMaker := makeQuery(epQuery)
 
 	q := queryMaker("103", "middle", "gold_plus", sourceVersion)

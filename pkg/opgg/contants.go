@@ -1,7 +1,8 @@
 package opgg
 
-const SourceUrl = `https://www.op.gg/champion`
-const AramSourceUrl = `https://www.op.gg/aram`
-
-const PkgName = `op.gg`
-const AramPkgName = `op.gg-aram`
+const (
+	SourceUrl     = `https://www.op.gg/champion`
+	AramSourceUrl = `https://www.op.gg/aram`
+	PkgName     = `op.gg`
+	AramPkgName = `op.gg-aram`
+)
