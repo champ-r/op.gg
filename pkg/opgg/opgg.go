@@ -242,7 +242,7 @@ listLoop:
 			go func(_cur ChampionListItem, _p string, _cnt int, _ver string) {
 				ch <- *worker(_cur, _p, _cnt, _ver)
 				wg.Done()
-			}(cur, p, cnt, officialVer)
+			}(cur, p, cnt, d.Version)
 		}
 	}
 
