@@ -17,6 +17,8 @@ publish() {
     cp "$workDir/output/index.json" "$workDir/output/$dir/"
     cd "$workDir/output/$dir" || return
     $npm publish --access public
+  else
+    echo "$workDir/output/$dir not exists"
   fi
 }
 
