@@ -220,7 +220,7 @@ listLoop:
 		go func(_cur ChampionListItem, _cnt int, _ver string) {
 			ch <- *startJob(_cur, _cnt, _ver)
 			wg.Done()
-		}(cur, cnt, officialVer)
+		}(cur, cnt, d.Version)
 	}
 
 	wg.Wait()
